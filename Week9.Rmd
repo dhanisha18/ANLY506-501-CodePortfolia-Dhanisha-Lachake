@@ -1,0 +1,94 @@
+---
+title: "Week9"
+author: "Dhanisha"
+date: "7/28/2019"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#Installing package ggplot2 and library datasets
+install.packages("ggplot2")
+library(datasets)
+library(ggplot2)
+
+#WARNING: Rtools is required to build R packages but is not currently installed. Please download and install the appropriate version of Rtools before proceeding:
+
+#https://cran.rstudio.com/bin/windows/Rtools/
+#Installing package into ‘C:/Users/dlachake/Documents/R/win-library/3.6’
+#(as ‘lib’ is unspecified)
+#trying URL 'https://cran.rstudio.com/bin/windows/contrib/3.6/ggplot2_3.2.0.zip'
+#Content type 'application/zip' length 3965523 bytes (3.8 MB)
+#downloaded 3.8 MB
+#package ‘ggplot2’ successfully unpacked and MD5 sums checked
+#The downloaded binary packages are in
+#C:\Users\dlachake\AppData\Local\Temp\RtmpwHr44H\downloaded_packages
+```
+
+
+```{r setup, include=TRUE}
+#Here I am creating a basic histogram of airquality$Ozone
+library(datasets) #I have to first use the dataset library
+hist(airquality$Ozone) #hist function for histogram
+```
+
+
+```{r setup, include=TRUE}
+#This creates a basic Scatterplot of Ozone$Wind
+library(datasets)
+with(airquality, plot(Wind, Ozone))
+
+#Theboxplot is basic grahic for creating a Boxplot for airquality dataset
+airquality <- transform(airquality, Month = factor(Month))
+boxplot(Ozone ~ Month, airquality, xlab = "Month", ylab = "Ozone (ppb)")
+
+#Using the with function for base plot with Annotation
+with(airquality, plot(Wind, Ozone, main = "Ozone vs Wind in New York"))
+with(subset(airquality, Month == 5), points(Wind, Ozone, col = "yellow"))
+
+#This is base plot of Distance versus Speed
+data(cars)
+with(cars, plot(dist,speed))
+title("Stopping distance vs speed")
+```
+
+
+```{r}
+#This is typlical plot using the qplot
+data(mpg) #Here I had to fisrt install mpg
+qplot(displ,hwy,data = mpg)
+```
+
+
+```{r setup, include=TRUE}
+#Here I have created a base plot with a Regression Line
+with(airquality, plot(Wind, Ozone, main = "Ozone vs Wind in New York", pch = 20))
+model <- lm(Ozone ~ Wind, airquality)
+abline(model, lwd = 2)
+```
+
+```{r}
+#Here we use a plotting function and make a plot appear on the screen device
+with(faithful,plot(eruptions,waiting))
+title(main = "Old Faithful Geyser Data")
+```
+
+
+```{r}
+#The below lets us open a PDF file stored in out working directory
+getwd()
+pdf(file = "graphicdevice.pdf")
+#This creates a plot and sends it to the above mentioned pdf file 
+with(faithful, plot(eruptions,waiting))
+title(main = "Old Faithful Geyser data")
+dev.off
+```
+
+```{r setup, include=TRUE}
+#Here we are copying plots to a PNG file 
+with(faithful, plot(eruptions,waiting))
+title(main = "Old Faithful Geyser Data")
+dev.copy(png, file = "geyserplot.png")
+dev.off
+```
